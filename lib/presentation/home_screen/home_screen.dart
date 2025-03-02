@@ -39,55 +39,57 @@ class HomeScreen extends StatelessWidget {
                   height: 20,
                 ),
                 if ((state.taskList?.isNotEmpty) ?? false)
-                  ListView.separated(
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
-                      itemBuilder: (context, index) {
-                        return _TaskContainer(
-                          index: index,
-                          onClickDelete: (val) {
-                            context.read<HomeBloc>().add(
-                                OnselectedContainerEvent(selectedIndex: val));
-                            openDeleteConfirmDialog(
-                                context: context,
-                                onClickSubmitDelete: () {
-                                  context.read<HomeBloc>().add(
-                                          HomeDeleteTaskEvent(
-                                              onDeleteFailure: (msg) {
-                                        showCustomSnackBar(
-                                          context: context,
-                                          message: msg,
-                                        );
-                                      }, onDeleteSuccess: (msg) {
-                                        showCustomSnackBar(
-                                          context: context,
-                                          message: msg,
-                                        );
-                                      }));
-                                },
-                                onCloseDialog: () {
-                                  context
-                                      .read<HomeBloc>()
-                                      .add(ClearDataEvent());
-                                });
-                          },
-                          onClickEdit: (val) {
-                            context.read<HomeBloc>().add(
-                                OnselectedContainerEvent(selectedIndex: val));
-                            showAddEditTaskSheet(
-                                context: context,
-                                homeBloc: context.read<HomeBloc>(),
-                                isEdit: true);
-                          },
-                          taskDetails: state.taskList![index],
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          height: 12,
-                        );
-                      },
-                      itemCount: state.taskList?.length ?? 0)
+                  Expanded(
+                    child: ListView.separated(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        itemBuilder: (context, index) {
+                          return _TaskContainer(
+                            index: index,
+                            onClickDelete: (val) {
+                              context.read<HomeBloc>().add(
+                                  OnselectedContainerEvent(selectedIndex: val));
+                              openDeleteConfirmDialog(
+                                  context: context,
+                                  onClickSubmitDelete: () {
+                                    context.read<HomeBloc>().add(
+                                            HomeDeleteTaskEvent(
+                                                onDeleteFailure: (msg) {
+                                          showCustomSnackBar(
+                                            context: context,
+                                            message: msg,
+                                          );
+                                        }, onDeleteSuccess: (msg) {
+                                          showCustomSnackBar(
+                                            context: context,
+                                            message: msg,
+                                          );
+                                        }));
+                                  },
+                                  onCloseDialog: () {
+                                    context
+                                        .read<HomeBloc>()
+                                        .add(ClearDataEvent());
+                                  });
+                            },
+                            onClickEdit: (val) {
+                              context.read<HomeBloc>().add(
+                                  OnselectedContainerEvent(selectedIndex: val));
+                              showAddEditTaskSheet(
+                                  context: context,
+                                  homeBloc: context.read<HomeBloc>(),
+                                  isEdit: true);
+                            },
+                            taskDetails: state.taskList![index],
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(
+                            height: 12,
+                          );
+                        },
+                        itemCount: state.taskList?.length ?? 0),
+                  )
                 else if (state.taskList == null ||
                     state.taskList?.isEmpty == true)
                   Expanded(
@@ -181,7 +183,7 @@ void showAddEditTaskSheet({
                     tecController:
                         state.descriptionController ?? TextEditingController(),
                     title: 'Description',
-                    errorText: state.taskFieldError),
+                    errorText: state.descriptionError),
                 const SizedBox(
                   height: 16,
                 ),
