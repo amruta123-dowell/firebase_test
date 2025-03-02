@@ -76,7 +76,7 @@ class SignUpScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Already have account? "),
+                    const Text("Do you already have an account? "),
                     InkWell(
                         onTap: () {
                           context
